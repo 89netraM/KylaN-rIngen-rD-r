@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="sv">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Kyla</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+		<header>
+			<h1>Kyla</h1>
+		</header>
+		<main>
+			<div id="temp" class="page">
+				<svg viewbox="0 0 100 55">
+					<linearGradient id="gradient" x1="0" y1="0" x2="100%" y2="0">
+						<stop offset="0%" stop-color="#00b7ff" />
+						<stop offset="100%" stop-color="#003cff" />
+					</linearGradient>
+					<path id="slider" fill="none" stroke="url(#gradient)" d="M 10 50 A 40 40 0 1 1 90 50" stroke-width="5" stroke-linecap="round" stroke-dasharray="63 126" />
+					<text id="temp-text" x="50" y="50" text-anchor="middle">18℃</text>
+				</svg>
+
+				<label id="boost">
+					<input type="checkbox" id="boost-toggle" class="toggle">
+					<span class="slider"></span>
+					<span class="label">Boost Mode</span>
+				</label>
+
+				<script>
+					const slider = document.getElementById("slider");
+					const tempText = document.getElementById("temp-text");
+					slider.addEventListener("touchstart", e => {
+						e.preventDefault();
+					});
+					slider.addEventListener("touchmove", e => {
+						const touch = e.touches[0];
+						const rect = slider.getBoundingClientRect();
+						const centerX = rect.left + rect.width / 2;
+						const centerY = rect.bottom;
+						const x = touch.clientX - centerX;
+						const y = Math.max(1, centerY - touch.clientY);
+						const angle = Math.atan2(y, x);
+						const percentage = Math.max(0, Math.min(1, angle / Math.PI));
+						slider.style.strokeDasharray = `${126 - percentage * 126} 126`;
+						tempText.innerHTML = `${Math.round(25 - percentage * 15)}℃`;
+					});
+				</script>
+			</div>
+			<div id="plan" class="page">
+				<p>När kommer kylan behövas?</p>
+				<div id="clock">
+					<svg viewBox="0 0 100 100">
+						<circle cx="50" cy="50" r="45" stroke="black" stroke-width="2" fill="none" />
+						<line id="hour-hand" x1="0" y1="0" x2="0" y2="-20" stroke="black" stroke-width="2" transform="translate(50, 50) rotate(0)" />
+						<g>
+							<text x="67.5" y="19.7" text-anchor="middle" dominant-baseline="middle">1</text>
+							<text x="80.3" y="32.5" text-anchor="middle" dominant-baseline="middle">2</text>
+							<text x="85" y="50" text-anchor="middle" dominant-baseline="middle">3</text>
+							<text x="80.3" y="67.5" text-anchor="middle" dominant-baseline="middle">4</text>
+							<text x="67.5" y="80.3" text-anchor="middle" dominant-baseline="middle">5</text>
+							<text x="50" y="85" text-anchor="middle" dominant-baseline="middle">6</text>
+							<text x="32.5" y="80.3" text-anchor="middle" dominant-baseline="middle">7</text>
+							<text x="19.7" y="67.5" text-anchor="middle" dominant-baseline="middle">8</text>
+							<text x="15" y="50" text-anchor="middle" dominant-baseline="middle">9</text>
+							<text x="19.7" y="32.5" text-anchor="middle" dominant-baseline="middle">10</text>
+							<text x="32.5" y="19.7" text-anchor="middle" dominant-baseline="middle">11</text>
+							<text x="50" y="15" text-anchor="middle" dominant-baseline="middle">12</text>
+						</g>
+					</svg>
+				</div>
+				<p>Kylan kommer att tillverkas så att den är redo vid angivet klockslag</p>
+
+				<script>
+					const hourHand = document.getElementById("hour-hand");
+					const clock = document.getElementById("clock");
+
+					clock.addEventListener("touchstart", moveHand);
+					clock.addEventListener("touchmove", moveHand);
+					function moveHand(e) {
+						const touch = e.touches[0];
+						const rect = clock.getBoundingClientRect();
+						const centerX = rect.left + rect.width / 2;
+						const centerY = rect.top + rect.height / 2;
+						const x = touch.clientX - centerX;
+						const y = touch.clientY - centerY;
+						const angle = Math.atan2(y, x) * (180 / Math.PI) + 90;
+						hourHand.setAttribute("transform", `translate(50, 50) rotate(${angle})`);
+						e.preventDefault();
+					}
+				</script>
+			</div>
+			<div id="about" class="page">
+				<h2>Om Kyla</h2>
+				<p>Kyla skapas när du inte är där.</p>
+			</div>
+		</main>
+		<nav>
+			<a href="#temp">
+				<svg fill="#000000" viewBox="0 0 32 32">
+					<path d="M20.75 6.008c0-6.246-9.501-6.248-9.5 0v13.238c-1.235 1.224-2 2.921-2 4.796 0 3.728 3.022 6.75 6.75 6.75s6.75-3.022 6.75-6.75c0-1.875-0.765-3.572-2-4.796l-0.001-0zM16 29.25c-2.9-0-5.25-2.351-5.25-5.251 0-1.553 0.674-2.948 1.745-3.909l0.005-0.004 0.006-0.012c0.13-0.122 0.215-0.29 0.231-0.477l0-0.003c0.001-0.014 0.007-0.024 0.008-0.038l0.006-0.029v-13.52c-0.003-0.053-0.005-0.115-0.005-0.178 0-1.704 1.381-3.085 3.085-3.085 0.060 0 0.12 0.002 0.179 0.005l-0.008-0c0.051-0.003 0.11-0.005 0.17-0.005 1.704 0 3.085 1.381 3.085 3.085 0 0.063-0.002 0.125-0.006 0.186l0-0.008v13.52l0.006 0.029 0.007 0.036c0.015 0.191 0.101 0.36 0.231 0.482l0 0 0.006 0.012c1.076 0.966 1.75 2.361 1.75 3.913 0 2.9-2.35 5.25-5.25 5.251h-0zM16.75 21.367v-7.866c0-0.414-0.336-0.75-0.75-0.75s-0.75 0.336-0.75 0.75v0 7.866c-1.164 0.338-2 1.394-2 2.646 0 1.519 1.231 2.75 2.75 2.75s2.75-1.231 2.75-2.75c0-1.252-0.836-2.308-1.981-2.641l-0.019-0.005zM26.5 2.25c-1.795 0-3.25 1.455-3.25 3.25s1.455 3.25 3.25 3.25c1.795 0 3.25-1.455 3.25-3.25v0c-0.002-1.794-1.456-3.248-3.25-3.25h-0zM26.5 7.25c-0.966 0-1.75-0.784-1.75-1.75s0.784-1.75 1.75-1.75c0.966 0 1.75 0.784 1.75 1.75v0c-0.001 0.966-0.784 1.749-1.75 1.75h-0z"></path>
+				</svg>
+				<span>Temperatur</span>
+			</a>
+			<a href="#plan">
+				<svg fill="#000000" viewBox="0 0 32 32">
+					<path d="M16 1.25c-8.146 0-14.75 6.604-14.75 14.75s6.604 14.75 14.75 14.75c8.146 0 14.75-6.604 14.75-14.75v0c-0.010-8.142-6.608-14.74-14.749-14.75h-0.001zM16 29.25c-7.318 0-13.25-5.932-13.25-13.25s5.932-13.25 13.25-13.25c7.318 0 13.25 5.932 13.25 13.25v0c-0.008 7.314-5.936 13.242-13.249 13.25h-0.001zM16.75 15.689v-9.689c0-0.414-0.336-0.75-0.75-0.75s-0.75 0.336-0.75 0.75v0 10c0 0 0 0 0 0 0 0.207 0.084 0.395 0.22 0.53v0l3.999 4.001c0.136 0.136 0.324 0.22 0.531 0.22 0.415 0 0.751-0.336 0.751-0.751 0-0.207-0.084-0.395-0.22-0.531v0z"></path>
+				</svg>
+				<span>Planera</span>
+			</a>
+			<a href="#about">
+				<svg fill="#000000" viewBox="0 0 32 32">
+					<path d="M22 29.25h-5.25v-19.25c-0-0.414-0.336-0.75-0.75-0.75h-4c-0.414 0-0.75 0.336-0.75 0.75s0.336 0.75 0.75 0.75v0h3.25v18.5h-5.25c-0.414 0-0.75 0.336-0.75 0.75s0.336 0.75 0.75 0.75v0h12c0.414 0 0.75-0.336 0.75-0.75s-0.336-0.75-0.75-0.75v0zM17.75 4c0 0.966-0.784 1.75-1.75 1.75s-1.75-0.784-1.75-1.75c0-0.966 0.784-1.75 1.75-1.75s1.75 0.784 1.75 1.75z"></path>
+				</svg>
+				<span>Om Kyla</span>
+			</a>
+		</nav>
+	</body>
+</html>
