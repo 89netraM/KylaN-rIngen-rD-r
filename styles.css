@@ -113,9 +113,8 @@ main {
 }
 
 nav {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
+	display: grid;
+	grid-template: ". temp plan about download" auto / 1fr auto auto auto 1fr;
 	gap: 2rem;
 	background-color: #21afde;
 	padding: 0.5rem;
@@ -127,6 +126,20 @@ nav {
 		font-size: 0.75rem;
 		text-decoration: none;
 		color: #000000;
+
+		&[href="#temp"] {
+			grid-area: temp;
+		}
+		&[href="#plan"] {
+			grid-area: plan;
+		}
+		&[href="#about"] {
+			grid-area: about;
+		}
+		&#install-button {
+			grid-area: download;
+			justify-self: start;
+		}
 
 		svg {
 			width: 2.75rem;
