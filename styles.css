@@ -8,7 +8,7 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
-	height: 100vh;
+	height: 100dvh;
 	display: grid;
 	grid-template-areas:
 		"header"
@@ -23,7 +23,7 @@ header h1 {
 }
 
 main {
-	overflow-y: scroll;
+	overflow-y: auto;
 
 	.page {
 		&:not(:first-child):not(:target),
